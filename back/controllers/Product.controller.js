@@ -29,7 +29,7 @@ module.exports = class ProductController {
             let product = req.body;
             product = await productModel.create(product);
             res.status(201).json(product);
-        } catch (error) {
+        } catch (err) {
             res.status(400).json({ message: err.message });
         }
     }
@@ -40,16 +40,17 @@ module.exports = class ProductController {
             const product = req.body;
             await productModel.updateOne({ code: code }, product);
             res.status(200).json()
-        } catch (error) {
+        } catch (err) {
             res.status(400).json({ message: err.message })
         }
     }
+    
     static async delete(req, res) {
         try {
             const code = req.params.code;
             await productModel.deleteOne({ code: code });
             res.status(200).json();
-        } catch (error) {
+        } catch (err) {
             res.status(400).json({ message: err.message });
         }
     }
