@@ -10,17 +10,7 @@
 
       <v-divider></v-divider>
 
-      <v-list dense nav>
-        <v-list-item v-for="item in items" :key="item.title" link :to="item.url">
-          <v-list-item-icon>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-item-icon>
-
-          <v-list-item-content>
-            <v-list-item-title>{{ item.title }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
+      <Menu></Menu>
     </v-navigation-drawer>
 
     <v-app-bar color="white" app>
@@ -30,17 +20,7 @@
 
       <v-spacer></v-spacer>
 
-      <v-btn icon>
-        <v-icon>mdi-magnify</v-icon>
-      </v-btn>
-
-      <v-btn icon>
-        <v-icon>mdi-heart</v-icon>
-      </v-btn>
-
-      <v-btn icon>
-        <v-icon>mdi-dots-vertical</v-icon>
-      </v-btn>
+      <account-button @open-login="showLogin = true"></account-button>
     </v-app-bar>
 
     <!-- Sizes your content based upon application components -->
@@ -55,20 +35,33 @@
     <v-footer app>
       <!-- -->
     </v-footer>
+
+    <v-dialog v-model="showLogin" persistent max-width="400">
+      <login @login-success="showLogin = false"></login>
+    </v-dialog>
   </v-app>
 </template>
 
 <script>
+import AccountButton from "./components/AccountButton.vue";
+import Login from './components/Login.vue';
+import Menu from "./components/Menu.vue";
+
 export default {
+  components: {
+    Menu,
+    AccountButton,
+    Login,
+  },
   data: () => ({
+    showLogin: false,
     drawer: true,
     title: "Cesar's Store",
-    username: "cdiaz@example.com",
-    items: [
-      { title: "Inicio", icon: "mdi-home", url: "/" },
-      { title: "Productos", icon: "mdi-image", url: "/products" },
-      { title: "About", icon: "mdi-help-box", url: "/about" },
-    ],
   }),
+  computed: {
+    username() {
+      return sessionStorage.getItem("username");
+    },
+  },
 };
 </script>
