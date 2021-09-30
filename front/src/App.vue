@@ -5,6 +5,7 @@
         <v-list-item-content>
           <v-list-item-title class="text-h6"> {{ title }} </v-list-item-title>
           <v-list-item-subtitle> {{ username }} </v-list-item-subtitle>
+          <v-list-item-subtitle> {{ role }} </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
 
@@ -44,7 +45,7 @@
 
 <script>
 import AccountButton from "./components/AccountButton.vue";
-import Login from './components/Login.vue';
+import Login from "./components/Login.vue";
 import Menu from "./components/Menu.vue";
 
 export default {
@@ -59,9 +60,8 @@ export default {
     title: "Cesar's Store",
   }),
   computed: {
-    username() {
-      return sessionStorage.getItem("username");
-    },
+    username: () => sessionStorage.getItem("username"),
+    role: () => sessionStorage.getItem("role"),
   },
 };
 </script>

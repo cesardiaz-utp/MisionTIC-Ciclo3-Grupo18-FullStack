@@ -35,7 +35,7 @@ export default {
     };
   },
   methods: {
-    login() {
+    login: () => {
       // Tomar email y contraseña para verificar si es válido
       sessionStorage.setItem("username", this.username);
       if (this.username == "cdiaz@example.com") {

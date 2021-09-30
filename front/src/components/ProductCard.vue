@@ -9,7 +9,7 @@
     </div>
     <v-card-actions>
       <v-spacer></v-spacer>
-      <v-btn color="success" @click="editar()"> Editar </v-btn>
+      <v-btn color="success" :to="'/products/'+item.code"> Editar </v-btn>
       <v-btn color="error" @click="eliminar()"> Eliminar </v-btn>
     </v-card-actions>
   </v-card>
@@ -21,6 +21,7 @@ export default {
   methods: {
       editar(){
           console.log(`Editar ${this.item.code}`);
+          this.$router.push(`/products/${this.item.code}`);
       },
       eliminar(){
           console.log(`Eliminar ${this.item.code}`);
