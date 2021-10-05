@@ -36,7 +36,7 @@ export default {
       .then((response) => {
           this.products = response.data;
       })
-      .catch((err) => console.error(err));
+      .catch((err) => console.error(err.response.data.message));
   },
 };
 </script>

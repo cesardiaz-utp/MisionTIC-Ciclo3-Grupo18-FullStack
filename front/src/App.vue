@@ -38,7 +38,7 @@
     </v-footer>
 
     <v-dialog v-model="showLogin" persistent max-width="400">
-      <login @login-success="showLogin = false"></login>
+      <Login @login-success="showLogin = false"></Login>
     </v-dialog>
   </v-app>
 </template>

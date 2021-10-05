@@ -29,7 +29,7 @@
       <v-btn color="primary" @click="guardarProducto()" v-if="isNew"
         >Guardar</v-btn
       >
-      <v-btn color="success" v-if="!isNew">Actualizar</v-btn>
+      <v-btn color="success" @click="actualizarProducto()" v-if="!isNew">Actualizar</v-btn>
     </div>
 
     <v-snackbar v-model="snackbar">
@@ -48,6 +48,7 @@
 import {
   createProduct,
   getProduct,
+  updateProduct,
 } from "../../controllers/Product.controller";
 
 export default {
@@ -88,14 +89,46 @@ export default {
       };
       createProduct(product)
         .then(() => {
-          this.snackbarText = "Guardado correctamente";
-          this.snackbar = true;
+          this.openSuccessDialog("Guardado correctamente");
         })
         .catch((err) => console.error(err));
+    },
+    actualizarProducto() {
+      if (
+        this.code == undefined ||
+        this.code == "" ||
+        this.name == undefined ||
+        this.name == "" ||
+        this.price == undefined ||
+        this.price == ""
+      ) {
+        this.openErrorDialog("Ingrese los campos obligatorios");
+        return;
+      }
+
+      const product = {
+        code: this.code,
+        name: this.name,
+        price: this.price,
+        categories: this.categories,
+      };
+      updateProduct(this.code, product)
+        .then(() =>
+          this.openSuccessDialog("Se ha actualizado el producto: " + this.code)
+        )
+        .catch(() => this.openErrorDialog("Error al actualizar el producto"));
     },
     removeChip(item) {
       this.categories.splice(this.categories.indexOf(item), 1);
       this.categories = [...this.categories];
+    },
+    openSuccessDialog(mensaje) {
+      this.snackbarText = mensaje;
+      this.snackbar = true;
+    },
+    openErrorDialog(mensaje) {
+      this.snackbarText = mensaje;
+      this.snackbar = true;
     },
     closeConfirmation() {
       this.snackbar = false;

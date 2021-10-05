@@ -4,6 +4,20 @@ import Home from '../views/Home.vue'
 
 Vue.use(VueRouter)
 
+const routeGuard = (to, from, next) => { 
+  let isAuthenticated = false;
+  if(sessionStorage.getItem("username")){
+    isAuthenticated = true;
+  }
+
+  if(isAuthenticated){
+    next();
+  } else {
+    next("/");
+  }
+};
+
+
 const routes = [
   {
     path: '/',
@@ -13,17 +27,20 @@ const routes = [
   {
     path: '/products',
     name: 'Products',
-    component: () => import('../views/products/List.vue')
+    component: () => import('../views/products/List.vue'),
+    beforeEnter: routeGuard
   },
   {
     path: '/products/new',
     name: 'New Product',
-    component: () => import('../views/products/New.vue')
+    component: () => import('../views/products/New.vue'),
+    beforeEnter: routeGuard
   },
   {
     path: '/products/:code',
     name: 'Edit Product',
-    component: () => import('../views/products/New.vue')
+    component: () => import('../views/products/New.vue'),
+    beforeEnter: routeGuard
   },
   {
     path: '/about',
@@ -36,6 +53,6 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
-})
+});
 
 export default router

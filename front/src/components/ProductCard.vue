@@ -9,24 +9,29 @@
     </div>
     <v-card-actions>
       <v-spacer></v-spacer>
-      <v-btn color="success" :to="'/products/'+item.code"> Editar </v-btn>
+      <v-btn color="success" :to="'/products/' + item.code"> Editar </v-btn>
       <v-btn color="error" @click="eliminar()"> Eliminar </v-btn>
     </v-card-actions>
   </v-card>
 </template>
 
 <script>
+import { deleteProduct } from "../controllers/Product.controller";
+
 export default {
   props: ["item"],
   methods: {
-      editar(){
-          console.log(`Editar ${this.item.code}`);
-          this.$router.push(`/products/${this.item.code}`);
-      },
-      eliminar(){
-          console.log(`Eliminar ${this.item.code}`);
-      }
-  }
+    editar() {
+      this.$router.push(`/products/${this.item.code}`);
+    },
+    eliminar() {
+      deleteProduct(this.item.code)
+        .then(() => {
+          window.location.reload();
+        })
+        .catch((err) => console.error(err.response.data.message));
+    },
+  },
 };
 </script>
 
