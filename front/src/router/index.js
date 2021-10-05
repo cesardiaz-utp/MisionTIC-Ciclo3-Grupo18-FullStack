@@ -4,19 +4,18 @@ import Home from '../views/Home.vue'
 
 Vue.use(VueRouter)
 
-const routeGuard = (to, from, next) => { 
+const routeGuard = (to, from, next) => {
   let isAuthenticated = false;
-  if(sessionStorage.getItem("username")){
+  if (sessionStorage.getItem("username")) {
     isAuthenticated = true;
   }
 
-  if(isAuthenticated){
+  if (isAuthenticated) {
     next();
   } else {
     next("/");
   }
 };
-
 
 const routes = [
   {

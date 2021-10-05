@@ -34,6 +34,10 @@ module.exports = class ProductController {
             if (product.code == undefined) {
                 res.status(400).json({ message: "Producto no puede ser guardado sin codigo" });
             } else {
+                if (typeof product.categories === 'string') {
+                    product.categories = JSON.parse(product.categories);
+                }
+
                 product = await productModel.create(product);
                 res.status(201).json(product);
             }
@@ -73,5 +77,5 @@ module.exports = class ProductController {
             res.status(400).json({ message: err.message });
         }
     }
-    
+
 }

@@ -4,7 +4,7 @@ const userController = require("../controllers/User.controller");
 
 // Multer configuration
 const multer = require("multer");
-const storage = multer.diskStorage({
+const storageConfig = multer.diskStorage({
     destination: (req, res, cb) => {
         cb(null, "./uploads");
     },
@@ -13,7 +13,7 @@ const storage = multer.diskStorage({
     }
 });
 
-const upload = multer({ storage: storage });
+const upload = multer({ storage: storageConfig });
 
 // Product routes
 const router = express.Router();
