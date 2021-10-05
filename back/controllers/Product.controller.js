@@ -27,8 +27,16 @@ module.exports = class ProductController {
     static async create(req, res) {
         try {
             let product = req.body;
-            product = await productModel.create(product);
-            res.status(201).json(product);
+            if (req.file != undefined) {
+                const imageName = req.file.filename;
+                product.imageUrl = "/" + imageName;
+            }
+            if (product.code == undefined) {
+                res.status(400).json({ message: "Producto no puede ser guardado sin codigo" });
+            } else {
+                product = await productModel.create(product);
+                res.status(201).json(product);
+            }
         } catch (err) {
             res.status(400).json({ message: err.message });
         }
@@ -44,7 +52,7 @@ module.exports = class ProductController {
             res.status(400).json({ message: err.message })
         }
     }
-    
+
     static async delete(req, res) {
         try {
             const code = req.params.code;
@@ -55,4 +63,15 @@ module.exports = class ProductController {
         }
     }
 
+    static async changeProductImage(req, res) {
+        try {
+            const code = req.params.code;
+            const imageName = req.file.filename;
+            await productModel.updateOne({ "code": code }, { "imageUrl": "/" + imageName });
+            res.status(200).json();
+        } catch (err) {
+            res.status(400).json({ message: err.message });
+        }
+    }
+    
 }
